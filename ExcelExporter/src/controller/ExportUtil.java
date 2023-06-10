@@ -12,7 +12,14 @@ import org.apache.poi.xssf.usermodel.*;
 import java.io.*;
 
 public class ExportUtil <T>{
-    public void exportDate(Class o, List<T> list, OutputStream response, String fileName) {
+
+    /**
+     * 导出 Excel
+     * @param o List<T> 中的 T
+     * @param list 要导出的数据
+     * @param fileName 导出文件名
+     */
+    public void exportDate(Class o, List<T> list, String fileName) {
         try {
 //            HSSFWorkbook wb = getHSSFWorkbook(o, list);
             XSSFWorkbook wb = getHSSFWorkbook(o,list);
@@ -25,8 +32,18 @@ public class ExportUtil <T>{
 ////            response.setContentType("application/vnd.ms-excel;charset=utf-8");
 //            response.setHeader("Content-Disposition", "attachment; filename=" + new String(fileName.getBytes("UTF-8"), "ISO8859_1"));
 //            ServletOutputStream fileOut = response.getOutputStream();
-            wb.write(response);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            wb.write(byteArrayOutputStream);
             wb.close();
+
+
+            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+            byte[] bytes = byteArrayOutputStream.toByteArray();
+            fileOutputStream.write(bytes);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            byteArrayOutputStream.flush();
+            byteArrayOutputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

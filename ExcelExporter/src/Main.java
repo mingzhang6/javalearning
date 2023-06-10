@@ -21,15 +21,15 @@ public class Main {
         List<customer> customers = gson.fromJson(str, new TypeToken<List<customer>>() {
         }.getType());
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        FileOutputStream fileOutputStream = new FileOutputStream(".\\output.xlsx");
-        (new ExportUtil<customer>()).exportDate(customer.class, customers, byteArrayOutputStream, "");
-        byte[] bytes = byteArrayOutputStream.toByteArray();
-        fileOutputStream.write(bytes);
-        fileOutputStream.flush();
-        fileOutputStream.close();
+        (new ExportUtil<customer>()).exportDate(customer.class, customers, "Customer.xlsx");
     }
 
+    /**
+     * 从文件中读取字符出串
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
     public static String readString(String fileName) throws IOException {
 
 //        FileInputStream fileInputStream = new FileInputStream(".\\customer.json");
